@@ -135,6 +135,41 @@ var insertStudent = function insertStudent(student)
 
 //AGGIUNGERE QUI SOTTO NUOVE FUNZIONI
 
+/**
+ * @brief This function gets the students with mark greater or less than value
+ * @param symbol: < or > to get marks greater or less than value
+ * @param value: mark
+ * @return a list of students
+ */
+function getStudentByMark(symbol, value) {
+    var foundStudents = [];
+    
+    if(isNaN(value)) {
+        return foundStudents;
+    } else {
+        value = parseInt(value);
+    }
+    
+    if(symbol=='<') {
+        for (i=0; i < studentList.length; i++)
+        {
+            if (parseInt(studentList[i].mark) <= value)
+            {
+                foundStudents.push(studentList[i]);
+            }
+        }
+    } else if(symbol=='>') {
+        for (i=0; i < studentList.length; i++)
+        {
+            if (parseInt(studentList[i].mark) >= value)
+            {
+                foundStudents.push(studentList[i]);
+            }
+        }
+    }
+    
+    return foundStudents;
+}
 
 
 //export functions
@@ -144,3 +179,4 @@ exports.deleteStudentID = deleteStudentID;
 exports.deleteStudentSSN = deleteStudentSSN; 
 exports.insertStudent = insertStudent;  
 exports.getList = getList; 
+exports.getStudentByMark = getStudentByMark;

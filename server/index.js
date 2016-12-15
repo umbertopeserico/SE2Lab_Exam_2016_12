@@ -4,9 +4,13 @@ var express = require('express');
 var app = express();
 //inspect
 var util = require('util');
+
+var path = require('path');
 //Cross-Origin Resource Sharing (CORS), used for enabling pre-flight option
 cors = require('cors');
 
+// This add client visible
+app.use(express.static(path.join(__dirname, '../client')));
 //student manager
 var studentManager = require('./studentManager.js');
 
@@ -272,3 +276,31 @@ app.listen(app.get('port'), function() {
 });
 
 //AGGIUNGERE QUI SOTTO NUOVE FUNZIONI
+
+
+app.post('/searchByMark/', function(req, res) {
+    var headers = {};
+    headers["Access-Control-Allow-Origin"] = "*";
+	headers["Access-Control-Allow-Methods"] = "POST, GET, PUT, DELETE, OPTIONS";
+	headers["Access-Control-Allow-Credentials"] = false;
+	headers["Access-Control-Max-Age"] = '86400'; // 24 hours
+	headers["Access-Control-Allow-Headers"] = "X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept";
+	headers["Content-Type"] = "application/json";
+    
+    var param = req.body.mark;
+    var symbol = param.slice(0, 1);
+    var value = param.slice(1);
+    console.log("Symbol: "+symbol);
+    console.log("Value: "+value);
+    
+    var students = [];
+    if(symbol == "<" || symbol == ">") {
+        students = studentManager.getStudentByMark(symbol, value);
+        res.writeHead(200, headers);
+        res.end(JSON.stringify(students));
+    } else {
+        res.writeHead(406, headers);
+        res.end(JSON.stringify({error: 'Invalid parameter'}));
+    }
+    
+});

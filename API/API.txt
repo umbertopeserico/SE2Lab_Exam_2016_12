@@ -79,7 +79,7 @@ paths:
       description: it returns a list of students that match a criteria
       parameters:
         - name: mark
-          in: body
+          in: formData
           description: criteria to be matched
           required: true
           type: string
@@ -106,4 +106,7 @@ definitions:
       address:
         type: string
         description: address of the student
+      mark:
+        type: string
+        description: 'mark of student'
 
